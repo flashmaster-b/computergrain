@@ -6,5 +6,5 @@ that is a classic grain synthesizer.
 
 Multiple buffers can be chosen, that all have to be loaded on startup
 
-To use it, download the file and open it in the [SuperCollider IDE](https://supercollider.github.io/).
+To use it, download the file computergrain.sc and open it in the [SuperCollider IDE](https://supercollider.github.io/).
 More instruction on how to run are in the file.
