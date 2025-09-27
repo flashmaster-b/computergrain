@@ -695,7 +695,7 @@ Button(w, Rect(0,0,80,80))
 	["Save"]
 ])
 .mouseDownAction_({
-	var f = File("/home/juergen/%-cg-state.csv".format(Date.getDate.format("%Y-%m-%dT%H%M%S")), "w");
+	var f = File("/%-cg-state.csv".format(Date.getDate.format("%Y-%m-%dT%H%M%S")), "w");
 	~sliders.do {
 		arg s;
 		f.write("%, '%', %, %, %, %, %, %, %, %, %, %, %, %\n".format(s.[\channel], s[\type], s[\buf].value, s[\size].value, s[\size_spray].value, s[\position].value, s[\speed].value, s[\pos_spray].value, s[\density].value, s[\freq_spray].value, s[\pitch].value, s[\pan].value, s[\vol].value, s[\sweep].value));
@@ -766,7 +766,7 @@ Button(w, Rect(0,0,80,80))
 	arg b;
 	if(b.value==1) {
 		"Recording...".postln;
-		s.record("/home/juergen/%-cg-audio.wav".format(Date.getDate.format("%Y-%m-%dT%H%M%S")), 0, 2);
+		s.record("/%-cg-audio.wav".format(Date.getDate.format("%Y-%m-%dT%H%M%S")), 0, 2);
 
 	} {
 		"Stopping".postln;
