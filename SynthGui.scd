@@ -5,7 +5,7 @@
 ~createGrainGUI = {
 	arg synth, channel, type;
 
-	var size, size_spray, pos, speed, pos_spray, density, freq_spray, pitch, pan, vol, lowpass, tSize, tSize_spray, tPos, tSpeed, tPos_spray, tDensity, tFreq_spray, tPitch, tPan, tVol, tLowpass, tPosition, bBuffer, bSweep, bOff, bMute, position;
+	var size, size_spray, pos, speed, pos_spray, density, freq_spray, pitch, pan, vol, lowpass, tSize, tSize_spray, tPos, tSpeed, tPos_spray, tDensity, tFreq_spray, tPitch, tPan, tVol, tLowpass, tPosition, bBuffer, bSweep, bOff, bMute, position, buttonStates;
 	var em = 40, width = (em+4)*12+5, height = em*5+60;
 	var w = Window(type ++ " synth CH " ++ channel, Rect(1920-(width*((channel/4).floor+1)),(40+((height+30)*(channel%4))),width,height));
 	w.view.decorator = FlowLayout(w.view.bounds);
@@ -118,7 +118,7 @@
 
 	bSweep = Button(w,Rect(0,0,2*em,em))
 	.states_([
-		["Position", Color.black, Color.grey],
+		["Position"],
 		["Sweep", Color.black, Color.red]
 	])
 	.action_({
@@ -128,29 +128,18 @@
 	})
 	.value_(1);
 
+	buttonStates = [];
+
+	~samples.keysValuesDo {
+		arg k, v;
+		buttonStates = buttonStates.add([k, Color.black, Color.green]);
+	};
+
 	bBuffer = Button(w,Rect(0,0,7*em,em))
-	.states_([
-		[~b0.path.split($/).last.split($.)[0], Color.black, Color.green],
-		[~b1.path.split($/).last.split($.)[0], Color.black, Color.green],
-		[~b2.path.split($/).last.split($.)[0], Color.black, Color.green],
-		[~b3.path.split($/).last.split($.)[0], Color.black, Color.green],
-		[~b4.path.split($/).last.split($.)[0], Color.black, Color.green],
-		[~b5.path.split($/).last.split($.)[0], Color.black, Color.green],
-		[~b6.path.split($/).last.split($.)[0], Color.black, Color.green],
-		[~b7.path.split($/).last.split($.)[0], Color.black, Color.green],
-		[~b8.path.split($/).last.split($.)[0], Color.black, Color.green],
-		[~b9.path.split($/).last.split($.)[0], Color.black, Color.green],
-		[~b10.path.split($/).last.split($.)[0], Color.black, Color.green],
-		[~b11.path.split($/).last.split($.)[0], Color.black, Color.green],
-		[~b12.path.split($/).last.split($.)[0], Color.black, Color.green],
-		[~b13.path.split($/).last.split($.)[0], Color.black, Color.green],
-		[~b14.path.split($/).last.split($.)[0], Color.black, Color.green],
-		[~b15.path.split($/).last.split($.)[0], Color.black, Color.green],
-		[~b16.path.split($/).last.split($.)[0], Color.black, Color.green]
-	])
+	.states_(buttonStates)
 	.action_({
 		arg button;
-		synth.set(\buf, button.value);
+		synth.set(\buf, ~samples[button.string]);
 	});
 
 	bOff = Button(w, Rect(0, 0, em, em))
@@ -165,7 +154,7 @@
 
 	bMute = Button(w, Rect(0, 0, 2*em, em))
 	.states_([
-		["Mute", Color.black, Color.clear],
+		["Mute"],
 		["Unmute", Color.black, Color.red]
 	])
 	.action_({

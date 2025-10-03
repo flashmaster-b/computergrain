@@ -34,7 +34,7 @@ OSCdef(\new_channel, { |msg|
  */
 OSCdef(\LFO, {
 	arg msg;
-	var keys = [\size, \position, \speed, \density, \pan];
+	var keys = [\size, \position, \speed, \density, \pan, \lowpass];
 	{ ~sliders[msg[3]][keys[msg[4]]].valueAction_(msg[5]); }.defer; // Update UI safely
 }, '/lfo');
 

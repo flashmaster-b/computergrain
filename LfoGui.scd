@@ -51,7 +51,8 @@
 		["Position"],
 		["Speed"],
 		["Density"],
-		["Pan"]
+		["Pan"],
+		["Lowpass"]
 	])
 	.action_({
 		arg b;
@@ -75,5 +76,3 @@
 }
 
 )
-
-~createLfoGUI.(Synth(\lfo))

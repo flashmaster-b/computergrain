@@ -1,3 +1,4 @@
+(
 /**
  * COMPUTERGRAIN
  *
@@ -13,27 +14,29 @@
  * @date		1 Oct 2025
  *
  *
- * To run the program you have to
- * 1) put the paths to your sound samples in the file Samples.scd
- * 2) Evaluate the code in this file, i.e. place your cursor somwhere below the
- *    open parenthesis below and press Ctrl + Enter (or CMD + Enter on Mac)
+ * To run the program you have to evaluate the code in this file, i.e. place
+ * your cursor somwhere below the open parenthesis below and press Ctrl + Enter
+ * (or CMD + Enter on Mac). A Dialogue will open to select samples, if you want
+ * to preload samples without dialoge, you can do so in the file Samples.scd
  *
+ * If you want to save your configuration of Synths and parameters, press "save"
+ * on the main control panel, a dialogue will open.
+ *
+ * To record sound, press record, sound will be recorded immediately to the Recordings
+ * directory in you working folder, press again to stop recording.
  *
  * MIDI MAPPINGS
- * Midi CC messages control the layer of the channel on which they are sent, so a message on ch0 controls
- * the synth on ch0. The control numbers can be set differently in the file Midi.scd
+ * Midi CC messages control the layer of the channel on which they are sent, so a message on
+ * ch0 controls the synth on ch0. The control numbers can be set differently in the file Midi.scd
  * cc num		30		31			32			33			34		35		36		37		39
  * control		size	size_spray	position	pos_spray	density	vol		pan		buffer	freq_spray
  */
 
-
-(
 o = Server.default.options;
 o.numOutputBusChannels = 2; // individual layers can pan around 4 channels. Adjust your setup here.
 o.maxLogins = 2;
 s = Server.default;
 s.waitForBoot({
-	var root;
 
 	// send osc messages to visualisation on port 12345
 	b = NetAddr.new("127.0.0.1", 12345);
@@ -43,25 +46,28 @@ s.waitForBoot({
 	MIDIIn.connectAll;
 
 	// figure out where we are
-	root = thisProcess.nowExecutingPath.dirname;
+	~root = thisProcess.nowExecutingPath.dirname;
 
 	// load samples
-	(root +/+ "Samples.scd").load;
+	(~root +/+ "Samples.scd").load;
+
+	// Save and restore functions
+	(~root +/+ "SaveRestore.scd").load;
 
 	// load synthdefs
-	(root +/+ "SynthDefs/Fm2.scd").load;
-	(root +/+ "SynthDefs/Grain.scd").load;
-	(root +/+ "SynthDefs/Land.scd").load;
-	(root +/+ "SynthDefs/Lfo.scd").load;
+	(~root +/+ "SynthDefs/Fm2.scd").load;
+	(~root +/+ "SynthDefs/Grain.scd").load;
+	(~root +/+ "SynthDefs/Land.scd").load;
+	(~root +/+ "SynthDefs/Lfo.scd").load;
 
 	// load Midi and OSC defs
-	(root +/+ "Midi.scd").load;
-	(root +/+ "Osc.scd").load;
+	(~root +/+ "Midi.scd").load;
+	(~root +/+ "Osc.scd").load;
 
 	// load GUI
-	(root +/+ "SynthGui.scd").load;
-	(root +/+ "LfoGui.scd").load;
-	(root +/+ "MainGui.scd").load;
+	(~root +/+ "SynthGui.scd").load;
+	(~root +/+ "LfoGui.scd").load;
+	(~root +/+ "MainGui.scd").load;
 
 	// creat synth directory
 	~synths = Dictionary.new;
