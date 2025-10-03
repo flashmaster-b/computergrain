@@ -39,7 +39,7 @@ SynthDef.new(\grain, {
 	 * starting position, 0.05 a spray of 10 % of the whole
 	 * duration of the buffer.
 	 */
-	var spray = (0.001+pos_spray).linexp(0.001, 1.001, 0.0, 0.5);
+	var spray = pos_spray.linexp(0.0, 1.0, 0.001, 0.501) - 0.001;
 
 	/**
 	 * The frequency with which to generate grains
