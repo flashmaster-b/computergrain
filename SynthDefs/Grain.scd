@@ -7,7 +7,7 @@
  */
 (
 SynthDef.new(\grain, {
-	arg buf=0, size=0.3, size_spray=0.0, position=0.0, pb_speed=0.5, pos_spray=0.00, density=0.5, freq_spray=0.0, pitch=0.5, vol=0.0, sweep=1, pan=1.0, low_pass=1, channel=0, mute=1.0;
+	arg buf=0, size=0.3, size_spray=0.0, position=0.0, pb_speed=0.5, pos_spray=0.0, density=0.5, freq_spray=0.0, pitch=0.5, vol=0.0, sweep=1, pan=1.0, low_pass=1, channel=0, mute=1.0;
 
 	/**
 	 * variable for holding the output signal
@@ -28,7 +28,7 @@ SynthDef.new(\grain, {
 	 * The jitter for the grain size, in seconds (0.1 ms - 100 ms)
 	 * Will be added to grain size.
 	 */
-	var jitter = size_spray.linlin(0,1,0.0, 0.1);
+	var jitter = size_spray.linlin(0, 1, 0.0, 0.1);
 
 	/**
 	 * The amount of spray, i.e. the amount that the
@@ -39,8 +39,7 @@ SynthDef.new(\grain, {
 	 * starting position, 0.05 a spray of 10 % of the whole
 	 * duration of the buffer.
 	 */
-	var spray = pos_spray.linlin(0,1,0.0, 0.5);
-
+	var spray = (0.001+pos_spray).linexp(0.001, 1.001, 0.0, 0.5);
 
 	/**
 	 * The frequency with which to generate grains
