@@ -10,26 +10,29 @@
  * Multiple samples can be chosen, that all have to be loaded on startup
  *
  * @author		Jürgen Buchinger <studio@differentspace.com>
- * @version 	5.2
- * @date		1 Oct 2025
+ * @version 	5.3
+ * @date		22 Oct 2025
  *
  *
  * To run the program you have to evaluate the code in this file, i.e. place
- * your cursor somwhere below the open parenthesis below and press Ctrl + Enter
- * (or CMD + Enter on Mac). A Dialogue will open to select samples, if you want
- * to preload samples without dialoge, you can do so in the file Samples.scd
+ * your cursor somwhere in this file and press Ctrl + Enter (or CMD + Enter on Mac).
+ * The program will automatically load samples from the "Samples"-folder, but you can
+ * also load with a file dialogue after start.
+ *
+ * All samples have to be mono wav-files!
  *
  * If you want to save your configuration of Synths and parameters, press "save"
- * on the main control panel, a dialogue will open.
+ * on the main control panel, press "restore" to restore the configuration again.
  *
  * To record sound, press record, sound will be recorded immediately to the Recordings
  * directory in you working folder, press again to stop recording.
  *
  * MIDI MAPPINGS
- * Midi CC messages control the layer of the channel on which they are sent, so a message on
- * ch0 controls the synth on ch0. The control numbers can be set differently in the file Midi.scd
- * cc num		30		31			32			33			34		35		36		37		39
- * control		size	size_spray	position	pos_spray	density	vol		pan		buffer	freq_spray
+ * Midi CC messages control the layer of the channel on which they are sent, so a
+ * message on ch0 controls the synth on ch0. The control numbers can be set differently
+ * in the file Midi.scd
+ * cc num	30		31			32			33			34		35	36	37
+ * control	size	size_spray	position	pos_spray	density	vol	pan	buffer
  */
 
 o = Server.default.options;
@@ -38,14 +41,7 @@ o.maxLogins = 2;
 s = Server.default;
 s.waitForBoot({
 
-	// send osc messages to visualisation on port 12345
-	b = NetAddr.new("127.0.0.1", 12345);
-
-	// connect all midi clients (you can change this if neccessary)
-	MIDIClient.init();
-	MIDIIn.connectAll;
-
-	// figure out where we are
+	// figure out where we are.
 	~root = thisProcess.nowExecutingPath.dirname;
 
 	// load samples
@@ -62,11 +58,13 @@ s.waitForBoot({
 
 	// load Midi and OSC defs
 	(~root +/+ "Midi.scd").load;
+	// (~root +/+ "MidiC8.scd").load;  // uncomment this if you use a Command8 controller
 	(~root +/+ "Osc.scd").load;
 
 	// load GUI
 	(~root +/+ "SynthGui.scd").load;
 	(~root +/+ "LfoGui.scd").load;
+	(~root +/+ "FmGui.scd").load;
 	(~root +/+ "MainGui.scd").load;
 
 	// creat synth directory

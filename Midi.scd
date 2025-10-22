@@ -3,19 +3,32 @@
  * default is one channel per layer
  */
 (
+
+// connect all midi clients (you can change this if neccessary)
+MIDIClient.init();
+MIDIIn.connectAll;
+
 MIDIFunc.cc({
 	arg val, ccNum, chan;
     // Map CC messages to synth parameters for the given channel
+	// mappings for FM synth are backwards compatible
     var synth = ~synths[chan];
 	var sliders = ~sliders[chan];
 	var v = val/127;
     if (synth.notNil) {
         switch(ccNum,
             30, {
-				synth.set(\size, v);
-				Routine {
-					sliders[\size].valueAction_(v);
-				}.play(AppClock);
+				if (sliders[\type].asString == "FM") {
+					synth.set(\ratio, v);
+					Routine {
+						sliders[\ratio].valueAction_(v);
+					}.play(AppClock);
+				} {
+					synth.set(\size, v);
+					Routine {
+						sliders[\size].valueAction_(v);
+					}.play(AppClock);
+				};
 			},
             31, {
 				Routine {
@@ -24,10 +37,17 @@ MIDIFunc.cc({
 				synth.set(\size_spray, v);
 			},
             32, {
-				Routine {
-					sliders[\position].valueAction_(v);
-				}.play(AppClock);
-				synth.set(\position, v);
+				if (sliders[\type].asString == "FM") {
+					synth.set(\index, v);
+					Routine {
+						sliders[\index].valueAction_(v);
+					}.play(AppClock);
+				} {
+					Routine {
+						sliders[\position].valueAction_(v);
+					}.play(AppClock);
+					synth.set(\position, v);
+				};
 			},
             33, {
 				Routine {
@@ -42,10 +62,17 @@ MIDIFunc.cc({
 				synth.set(\density, v);
 			},
             35, {
-				Routine {
-					sliders[\pitch].valueAction_(v);
-				}.play(AppClock);
-				synth.set(\pitch, v);
+				if (sliders[\type].asString == "FM") {
+					synth.set(\carrier, v);
+					Routine {
+						sliders[\carrier].valueAction_(v);
+					}.play(AppClock);
+				} {
+					Routine {
+						sliders[\pitch].valueAction_(v);
+					}.play(AppClock);
+					synth.set(\pitch, v);
+				};
 			},
             38, {
 				Routine {

@@ -6,8 +6,8 @@
 	arg synth, channel, type;
 
 	var size, size_spray, pos, speed, pos_spray, density, freq_spray, pitch, pan, vol, lowpass, tSize, tSize_spray, tPos, tSpeed, tPos_spray, tDensity, tFreq_spray, tPitch, tPan, tVol, tLowpass, tPosition, bBuffer, bSweep, bOff, bMute, position, buttonStates;
-	var em = 40, width = (em+4)*12+5, height = em*5+60;
-	var w = Window(type ++ " synth CH " ++ channel, Rect(1920-(width*((channel/4).floor+1)),(40+((height+30)*(channel%4))),width,height));
+	var em = 30, width = (em+4)*12+5, height = em*5+60;
+	var w = Window(type ++ " synth CH " ++ channel, Rect(width*(channel/3).floor,900-((210+38)*(1+(channel%3)))-31,width,height));
 	w.view.decorator = FlowLayout(w.view.bounds);
 
 	size = Slider.new(w, em@(em*4))
@@ -140,15 +140,23 @@
 	.action_({
 		arg button;
 		synth.set(\buf, ~samples[button.string]);
+	})
+	.valueAction_(0);
+
+	// to set the buffer by name
+	bBuffer.addUniqueMethod(\valueActionLabel, {
+		arg view, label;
+		var index = view.states.detectIndex { arg s; s[0] == label; };
+		if (index.notNil) {
+			view.valueAction_(index);
+		} {
+			("No state with label '%' found.".format(label)).warn;
+		};
 	});
 
 	bOff = Button(w, Rect(0, 0, em, em))
 	.states_([["Off"]])
 	.action_({
-		synth.free;
-		~synths.removeAt(channel);
-		~sliders.removeAt(channel);
-		b.sendMsg("/channel", channel, 0);
 		w.close;
 	});
 
@@ -166,6 +174,7 @@
 		synth.free;
 		~synths.removeAt(channel);
 		~sliders.removeAt(channel);
+		b.sendMsg("/channel", channel, 0);
 	};
 	w.front;
 

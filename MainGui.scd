@@ -4,40 +4,48 @@
 (
 w = Window.new("COMPUTERGRAIN MAIN CONTROL", Rect(0,0,760,90));
 w.view.decorator = FlowLayout(w.view.bounds);
-Button(w, Rect(0,0,80,80))
+~newGrain = Button(w, Rect(0,0,80,80))
 .states_([
 	["New Grain", Color.black, Color.yellow]
 ])
-.mouseDownAction_({
-	for(0,~synths.size) {
-		arg i;
-		if(~synths.includesKey(i)) {} {
-			~synths[i] = Synth(\grain, [\vol, 0.0, \channel, i]);
-			~createGrainGUI.(~synths[i], i, "Grain");
-			b.sendMsg("/channel", i, 1);
-		};
-	}
+.action_({
+	if (~samples.isEmpty) {
+		"You have to load samples before starting a Grain Synth!".warn;
+	} {
+		for(0,~synths.size) {
+			arg i;
+			if(~synths.includesKey(i)) {} {
+				~synths[i] = Synth(\grain, [\vol, 0.0, \channel, i]);
+				~createGrainGUI.(~synths[i], i, "Grain");
+				b.sendMsg("/channel", i, 1);
+			};
+		}
+	}´
 });
 
-Button(w, Rect(0,0,80,80))
+~newLand = Button(w, Rect(0,0,80,80))
 .states_([
 	["New Land", Color.black, Color.yellow]
 ])
-.mouseDownAction_({
-	for(0,~synths.size) {
-		arg i;
-		if(~synths.includesKey(i)) {} {
-			~synths[i] = Synth(\land, [\vol, 0.0]);
-			~createGrainGUI.(~synths[i], i, "Land");
-		};
+.action_({
+	if (~samples.isEmpty) {
+		"You have to load samples before starting a Land Synth!".warn;
+	} {
+		for(0,~synths.size) {
+			arg i;
+			if(~synths.includesKey(i)) {} {
+				~synths[i] = Synth(\land, [\vol, 0.0]);
+				~createGrainGUI.(~synths[i], i, "Land");
+			};
+		}
 	}
 });
 
-Button(w, Rect(0,0,80,80))
+~newFm = Button(w, Rect(0,0,80,80))
 .states_([
 	["New FM", Color.black, Color.yellow]
 ])
-.mouseDownAction_({
+.action_({
 	for(0,~synths.size) {
 		arg i;
 		if(~synths.includesKey(i)) {} {
@@ -111,3 +119,4 @@ w.onClose = {
 
 w.front;
 )
+

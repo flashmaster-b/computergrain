@@ -24,13 +24,13 @@ myPath.files.do {
 
 ~openFiles = {
 	Dialog.openPanel({
-		arg path;
+		arg paths;
 		var sample;
 		var i=0;
-		path.do {
+		paths.do {
 			arg filename;
-			filename.postln;
-			sample = Buffer.read(s, filename,0,-1,{
+			filename.basename.postln;
+			sample = Buffer.read(s, filename,0,-1, {
 				arg b;
 				if(b.numChannels == 1) {
 					~samples.put(b.path.split($/).last.split($.)[0], b);
@@ -42,17 +42,3 @@ myPath.files.do {
 	},nil,true,~root);
 }
 )
-
-/**
- * Uncomment this if you want to use a predefined set of samples and not use the dialog.
- * Copy as often as you need to load all your samples. Be aware to use only mono
- * wav-Files, this will not be tested here and if it is not a mono wav-File the
- * synth will simply not make a sound.
- *
-
-~samples["Hearbeat"] = Buffer.read(s, ~root +/+ "Samples/heartbeat.wav");
-~samples["Bell"] = Buffer.read(s, ~root +/+ "Samples/bell_mono.wav");
-~samples["Iron Gate"] = Buffer.read(s, ~root +/+ "Samples/iron-gate-vibrating.wav");
-)
-
-*/

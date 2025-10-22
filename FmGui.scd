@@ -6,8 +6,8 @@
 	arg synth, channel, type;
 
 	var carrier, ratio, index, vol, lowpass, tCarrier, tRatio, tIndex, tVol, tLowpass, bOff, bMute;
-	var em = 40, width = (em+4)*5+5, height = em*5+60;
-	var w = Window("FM synth CH " ++ channel, Rect(0,0,width,height));
+	var em = 30, width = (em+4)*5+5, height = em*5+60;
+	var w = Window("FM synth CH " ++ channel, Rect(width*(channel/3).floor,900-((210+38)*(1+(channel%3)))-31,width,height));
 	w.view.decorator = FlowLayout(w.view.bounds);
 
 	carrier = Slider.new(w, em@(em*4))
@@ -65,10 +65,6 @@
 	bOff = Button(w, Rect(0, 0, em, em))
 	.states_([["Off"]])
 	.action_({
-		synth.free;
-		~synths.removeAt(channel);
-		~sliders.removeAt(channel);
-		b.sendMsg("/channel", channel, 0);
 		w.close;
 	});
 
@@ -86,6 +82,7 @@
 		synth.free;
 		~synths.removeAt(channel);
 		~sliders.removeAt(channel);
+		b.sendMsg("/channel", channel, 0);
 	};
 	w.front;
 
