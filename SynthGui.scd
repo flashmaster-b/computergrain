@@ -90,18 +90,54 @@
 	});
 	position = Slider.new(w, em@(em*4));
 
-	StaticText.new(w,Rect(0,0,em,20)).string = " Size";
-	StaticText.new(w,Rect(0,0,em,20)).string = " Jitter";
-	StaticText.new(w,Rect(0,0,em,20)).string = " Position";
-	StaticText.new(w,Rect(0,0,em,20)).string = " Speed";
-	StaticText.new(w,Rect(0,0,em,20)).string = " Spray";
-	StaticText.new(w,Rect(0,0,em,20)).string = " Density";
-	StaticText.new(w,Rect(0,0,em,20)).string = " Spray";
-	StaticText.new(w,Rect(0,0,em,20)).string = " Pitch";
-	StaticText.new(w,Rect(0,0,em,20)).string = " Pan";
-	StaticText.new(w,Rect(0,0,em,20)).string = " Volume";
-	StaticText.new(w,Rect(0,0,em,20)).string = " Lowpass";
-	StaticText.new(w,Rect(0,0,em,20)).string = " Pos";
+	StaticText.new(w,Rect(0,0,em,20))
+		.string_("Size")
+		.font_(Font("Monaco", 11))
+		.align_(\center);
+	StaticText.new(w,Rect(0,0,em,20))
+		.string_("Jitter")
+		.font_(Font("Monaco", 11))
+		.align(\center);
+	StaticText.new(w,Rect(0,0,em,20))
+		.string_("Pos'n")
+		.font_(Font("Monaco", 11))
+		.align_(\center);
+	StaticText.new(w,Rect(0,0,em,20))
+		.string_("Speed")
+		.font_(Font("Monaco", 11))
+		.align_(\center);
+	StaticText.new(w,Rect(0,0,em,20))
+		.string_("Spray")
+		.font_(Font("Monaco", 11))
+		.align_(\center);
+	StaticText.new(w,Rect(0,0,em,20))
+		.string_("Densi")
+		.font_(Font("Monaco", 11))
+		.align_(\center);
+	StaticText.new(w,Rect(0,0,em,20))
+		.string_("Spray")
+		.font_(Font("Monaco", 11))
+		.align_(\center);
+	StaticText.new(w,Rect(0,0,em,20))
+		.string_("Pitch")
+		.font_(Font("Monaco", 11))
+		.align_(\center);
+	StaticText.new(w,Rect(0,0,em,20))
+		.string_("Pan")
+		.font_(Font("Monaco", 11))
+	.align_(\center);
+	StaticText.new(w,Rect(0,0,em,20))
+		.string_("Vol")
+		.font_(Font("Monaco", 11))
+		.align_(\center);
+	StaticText.new(w,Rect(0,0,em,20))
+		.string_("Lowp")
+		.font_(Font("Monaco", 11))
+		.align_(\center);
+	StaticText.new(w,Rect(0,0,em,20))
+		.string_("Pos")
+		.font_(Font("Monaco", 11))
+		.align_(\center);
 
 	tSize = StaticText.new(w,Rect(0,0,em,20));
 	tSize_spray = StaticText.new(w,Rect(0,0,em,20));

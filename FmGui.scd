@@ -50,11 +50,26 @@
 		tLowpass.string = slider.value.round(0.001);
 	});
 
-	StaticText.new(w,Rect(0,0,em,20)).string = " Carrier";
-	StaticText.new(w,Rect(0,0,em,20)).string = " Ratio";
-	StaticText.new(w,Rect(0,0,em,20)).string = " Index";
-	StaticText.new(w,Rect(0,0,em,20)).string = " Volume";
-	StaticText.new(w,Rect(0,0,em,20)).string = " Lowpass";
+	StaticText.new(w,Rect(0,0,em,20))
+		.string_("Carri")
+		.font_(Font("Monaco", 11))
+		.align_(\center);
+	StaticText.new(w,Rect(0,0,em,20))
+		.string_("Ratio")
+		.font_(Font("Monaco", 12))
+		.align_(\center);
+	StaticText.new(w,Rect(0,0,em,20))
+		.string_("Index")
+		.font_(Font("Monaco", 12))
+		.align_(\center);
+	StaticText.new(w,Rect(0,0,em,20))
+		.string_("Vol")
+		.font_(Font("Monaco", 12))
+		.align_(\center);
+	StaticText.new(w,Rect(0,0,em,20))
+		.string_("Lowp")
+		.font_(Font("Monaco", 12))
+		.align_(\center);
 
 	tCarrier = StaticText.new(w,Rect(0,0,em,20));
 	tRatio = StaticText.new(w,Rect(0,0,em,20));

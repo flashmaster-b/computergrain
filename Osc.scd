@@ -4,6 +4,9 @@
 
 (
 
+// send osc messages to visualisation on port 12345
+b = NetAddr.new("127.0.0.1", 12345);
+
 /**
  * We are updating the actual position slider via OSC messages
  */
@@ -34,7 +37,7 @@ OSCdef(\new_channel, { |msg|
  */
 OSCdef(\LFO, {
 	arg msg;
-	var keys = [\size, \position, \speed, \density, \pan, \lowpass];
+	var keys = [\size, \position, \speed, \density, \pan, \carrier, \ratio, \index, \lowpass];
 	{ ~sliders[msg[3]][keys[msg[4]]].valueAction_(msg[5]); }.defer; // Update UI safely
 }, '/lfo');
 

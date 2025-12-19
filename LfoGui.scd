@@ -38,7 +38,8 @@
 		["Channel 1"],
 		["Channel 2"],
 		["Channel 3"],
-		["Channel 4"]
+		["Channel 4"],
+		["Channel 5"]
 	])
 	.action_({
 		arg b;
@@ -52,6 +53,9 @@
 		["Speed"],
 		["Density"],
 		["Pan"],
+		["Carrier"],
+		["Ratio"],
+		["Index"],
 		["Lowpass"]
 	])
 	.action_({
