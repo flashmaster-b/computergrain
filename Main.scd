@@ -10,8 +10,8 @@
  * Multiple samples can be chosen, that all have to be loaded on startup
  *
  * @author		Jürgen Buchinger <studio@differentspace.com>
- * @version 	5.3
- * @date		22 Oct 2025
+ * @version 	5.4
+ * @date		19 Dec 2025
  *
  *
  * To run the program you have to evaluate the code in this file, i.e. place

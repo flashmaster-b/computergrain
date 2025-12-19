@@ -2,7 +2,7 @@
  * Here we create the main GUI for the creation of new layers, recording, etc.
  */
 (
-w = Window.new("COMPUTERGRAIN MAIN CONTROL", Rect(0,0,760,90));
+w = Window.new("COMPUTERGRAIN MAIN CONTROL", Rect(0,0,850,90));
 w.view.decorator = FlowLayout(w.view.bounds);
 ~newGrain = Button(w, Rect(0,0,80,80))
 .states_([
@@ -79,6 +79,12 @@ Button(w, 80@80)
 	["Load\nsamples", Color.black, Color.cyan]
 ])
 .mouseDownAction = ~openFiles;
+
+Button(w, 80@80)
+.states_([
+	["Show\nsamples", Color.black, Color.cyan]
+])
+.mouseDownAction = ~showSamples;
 
 Button(w, 80@80)
 .states_([

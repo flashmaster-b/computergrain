@@ -71,11 +71,21 @@
 		.font_(Font("Monaco", 12))
 		.align_(\center);
 
-	tCarrier = StaticText.new(w,Rect(0,0,em,20));
-	tRatio = StaticText.new(w,Rect(0,0,em,20));
-	tIndex = StaticText.new(w,Rect(0,0,em,20));
-	tVol = StaticText.new(w,Rect(0,0,em,20));
-	tLowpass = StaticText.new(w,Rect(0,0,em,20));
+	tCarrier = StaticText.new(w,Rect(0,0,em,20))
+		.font_(Font("Monaco", 11))
+		.align_(\center);
+	tRatio = StaticText.new(w,Rect(0,0,em,20))
+		.font_(Font("Monaco", 11))
+		.align_(\center);
+	tIndex = StaticText.new(w,Rect(0,0,em,20))
+		.font_(Font("Monaco", 11))
+		.align_(\center);
+	tVol = StaticText.new(w,Rect(0,0,em,20))
+		.font_(Font("Monaco", 11))
+		.align_(\center);
+	tLowpass = StaticText.new(w,Rect(0,0,em,20))
+		.font_(Font("Monaco", 11))
+		.align_(\center);
 
 	bOff = Button(w, Rect(0, 0, em, em))
 	.states_([["Off"]])

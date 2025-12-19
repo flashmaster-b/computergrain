@@ -40,5 +40,34 @@ myPath.files.do {
 			});
 		};
 	},nil,true,~root);
-}
+};
+
+~showSamples = {
+	var num = ~samples.size;
+	var width = 300;
+	var em = 30;
+	var w = Window("Samples", Rect(100,200,width,num*(em+10)));
+	w.view.decorator = FlowLayout(w.view.bounds);
+
+	~samples.keysDo {
+		arg k;
+		var p;
+		Button(w,Rect(0,0,width-5,30))
+		.states_([
+			[k],
+			[k, Color.red]
+		])
+		.action_({
+			arg button;
+			if(button.value == 1) {
+				p = ~samples[button.string].play;
+			} {
+				p.free;
+			}
+		});
+	};
+
+	w.front;
+};
+
 )

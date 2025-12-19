@@ -139,18 +139,42 @@
 		.font_(Font("Monaco", 11))
 		.align_(\center);
 
-	tSize = StaticText.new(w,Rect(0,0,em,20));
-	tSize_spray = StaticText.new(w,Rect(0,0,em,20));
-	tPos = StaticText.new(w,Rect(0,0,em,20));
-	tSpeed = StaticText.new(w,Rect(0,0,em,20));
-	tPos_spray = StaticText.new(w,Rect(0,0,em,20));
-	tDensity = StaticText.new(w,Rect(0,0,em,20));
-	tFreq_spray = StaticText.new(w,Rect(0,0,em,20));
-	tPitch = StaticText.new(w,Rect(0,0,em,20));
-	tPan = StaticText.new(w,Rect(0,0,em,20));
-	tVol = StaticText.new(w,Rect(0,0,em,20));
-	tLowpass = StaticText.new(w,Rect(0,0,em,20));
-	tPosition = StaticText.new(w,Rect(0,0,em,20));
+	tSize = StaticText.new(w,Rect(0,0,em,20))
+		.font_(Font("Monaco", 11))
+		.align_(\center);
+	tSize_spray = StaticText.new(w,Rect(0,0,em,20))
+		.font_(Font("Monaco", 11))
+		.align_(\center);
+	tPos = StaticText.new(w,Rect(0,0,em,20))
+		.font_(Font("Monaco", 11))
+		.align_(\center);
+	tSpeed = StaticText.new(w,Rect(0,0,em,20))
+		.font_(Font("Monaco", 11))
+		.align_(\center);
+	tPos_spray = StaticText.new(w,Rect(0,0,em,20))
+		.font_(Font("Monaco", 11))
+		.align_(\center);
+	tDensity = StaticText.new(w,Rect(0,0,em,20))
+		.font_(Font("Monaco", 11))
+		.align_(\center);
+	tFreq_spray = StaticText.new(w,Rect(0,0,em,20))
+		.font_(Font("Monaco", 11))
+		.align_(\center);
+	tPitch = StaticText.new(w,Rect(0,0,em,20))
+		.font_(Font("Monaco", 11))
+		.align_(\center);
+	tPan = StaticText.new(w,Rect(0,0,em,20))
+		.font_(Font("Monaco", 11))
+		.align_(\center);
+	tVol = StaticText.new(w,Rect(0,0,em,20))
+		.font_(Font("Monaco", 11))
+		.align_(\center);
+	tLowpass = StaticText.new(w,Rect(0,0,em,20))
+		.font_(Font("Monaco", 11))
+		.align_(\center);
+	tPosition = StaticText.new(w,Rect(0,0,em,20))
+		.font_(Font("Monaco", 11))
+		.align_(\center);
 
 	bSweep = Button(w,Rect(0,0,2*em,em))
 	.states_([
