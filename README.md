@@ -6,6 +6,8 @@ that creates modulations between layers for interesting soundscapes, and one mod
 that is a classic grain synthesizer, one is a simple frequency modulation.
 Multiple samples can be chosen, that all have to be loaded on startup.
 
+![GUI of Computergrain](Screenshot.png)
+
 To use it, download all the files in this repository to your computer and open 
 Main.scd in the [SuperCollider IDE](https://supercollider.github.io/).
 
