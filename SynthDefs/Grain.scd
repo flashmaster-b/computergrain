@@ -7,7 +7,7 @@
  */
 (
 SynthDef.new(\grain, {
-	arg buf=0, size=0.3, size_spray=0.0, position=0.0, pb_speed=0.5, pos_spray=0.0, density=0.5, freq_spray=0.0, pitch=0.5, vol=0.0, sweep=1, pan=1.0, low_pass=1, channel=0, mute=1.0;
+	arg buf=0, size=0.3, size_spray=0.0, position=0.0, pb_speed=0.5, pos_spray=0.0, density=0.5, freq_spray=0.0, pitch=0.5, vol=0.0, sweep=1, pan=1.0, low_pass=1, channel=0, mute=1.0, wet=0.0, room=0.5, damp=0.5;
 
 	/**
 	 * variable for holding the output signal
@@ -95,6 +95,7 @@ SynthDef.new(\grain, {
 	);
 	sig = Normalizer.ar(sig, vol);
 	sig = LPF.ar(sig, lp_freq);
+	sig = FreeVerb.ar(sig, wet, room, damp);
 	sig = PanAz.ar(4, sig, pan_, 1.0, 4.0);
 	Out.ar(0,sig*mute);
 }).add;
