@@ -4,7 +4,7 @@ A grain synthesizer with two modes and multiple layers. Can be controlled via MI
 One mode (Land) overlays multiple channels with slightly different generation rates,
 that creates modulations between layers for interesting soundscapes, and one mode
 that is a classic grain synthesizer, one is a simple frequency modulation.
-Multiple samples can be chosen, that all have to be loaded on startup.
+Multiple samples can be chosen.
 
 ![GUI of Computergrain](Screenshot.png)
 
