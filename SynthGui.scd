@@ -5,10 +5,75 @@
 ~createGrainGUI = {
 	arg synth, channel, type;
 
-	var size, size_spray, pos, speed, pos_spray, density, freq_spray, pitch, pan, vol, lowpass, tSize, tSize_spray, tPos, tSpeed, tPos_spray, tDensity, tFreq_spray, tPitch, tPan, tVol, tLowpass, tPosition, bBuffer, bSweep, bOff, bMute, position, buttonStates;
-	var em = 30, width = (em+4)*12+5, height = em*5+60;
+	var size, size_spray, pos, speed, pos_spray, density, freq_spray, pitch, pan, vol, lowpass, wet, room, tSize, tSize_spray, tPos, tSpeed, tPos_spray, tDensity, tFreq_spray, tPitch, tPan, tVol, tLowpass, tWet, tRoom, tPosition, bBuffer, bSweep, bOff, bMute, bLowHigh, position, buttonStates;
+	var em = 30, width = (em+4)*10+5, height = em*7+10;
 	var w = Window(type ++ " synth CH " ++ channel, Rect(width*(channel/3).floor,900-((210+38)*(1+(channel%3)))-31,width,height));
 	w.view.decorator = FlowLayout(w.view.bounds);
+
+	// first row: knobs
+	size_spray = Knob.new(w, em@em)
+	.value_(0.0)
+	.action_({
+		arg knob;
+		synth.set(\size_spray, knob.value);
+		tSize_spray.string = knob.value.round(0.001);
+	});
+	pos_spray = Knob.new(w, em@em)
+	.value_(0.0)
+	.action_({
+		arg knob;
+		synth.set(\pos_spray, knob.value);
+		tPos_spray.string = knob.value.round(0.001);
+	});
+	bSweep = Button(w,Rect(0,0,em,em))
+	.states_([
+		[""],
+		[""]
+	])
+	.action_({
+		arg button;
+		synth.set(\sweep, button.value);
+		if(button.value == 0) { pos.valueAction_(position.value) };
+	})
+	.value_(1);
+	freq_spray = Knob.new(w, em@em)
+	.value_(0.0)
+	.action_({
+		arg knob;
+		synth.set(\freq_spray, knob.value);
+		tFreq_spray.string = knob.value.round(0.001);
+	});
+
+	w.view.decorator.left = w.view.decorator.left + em + em + 8;
+
+	bMute = Button(w, Rect(0, 0, em, em))
+	.states_([
+		[""],
+		[""]
+	])
+	.action_({
+		arg button;
+		synth.set(\mute, 1-button.value);
+	});
+	bLowHigh = Button(w, Rect(0, 0, em, em))
+	.states_([
+		["Lo"],
+		["Hi"]
+	])
+	.action_({
+		arg button;
+		synth.set(\pass, button.value);
+	});
+	wet = Knob.new(w, em@em)
+	.value_(0)
+	.action_({
+		arg knob;
+		synth.set(\wet, knob.value);
+		tWet.string = knob.value.round(0.001);
+	});
+
+
+	w.view.decorator.nextLine;
 
 	size = Slider.new(w, em@(em*4))
 	.action_({
@@ -18,13 +83,6 @@
 	})
 	.value_(0.3);
 
-	size_spray = Slider.new(w, em@(em*4))
-	.value_(0.0)
-	.action_({
-		arg slider;
-		synth.set(\size_spray, slider.value);
-		tSize_spray.string = slider.value.round(0.001);
-	});
 	pos = Slider.new(w, em@(em*4))
 	.value_(0.0)
 	.action_({
@@ -39,26 +97,12 @@
 		synth.set(\pb_speed, slider.value);
 		tSpeed.string = slider.value.round(0.001);
 	});
-	pos_spray = Slider.new(w, em@(em*4))
-	.value_(0.0)
-	.action_({
-		arg slider;
-		synth.set(\pos_spray, slider.value);
-		tPos_spray.string = slider.value.round(0.001);
-	});
 	density = Slider.new(w, em@(em*4))
 	.value_(0.5)
 	.action_({
 		arg slider;
 		synth.set(\density, slider.value);
 		tDensity.string = slider.value.round(0.001);
-	});
-	freq_spray = Slider.new(w, em@(em*4))
-	.value_(0.0)
-	.action_({
-		arg slider;
-		synth.set(\freq_spray, slider.value);
-		tFreq_spray.string = slider.value.round(0.001);
 	});
 	pitch = Slider.new(w, em@(em*4))
 	.value_(0.5)
@@ -88,16 +132,19 @@
 		synth.set(\low_pass, slider.value);
 		tLowpass.string = slider.value.round(0.001);
 	});
+	room = Slider.new(w, em@(em*4))
+	.value_(1)
+	.action_({
+		arg slider;
+		synth.set(\room, slider.value);
+		tRoom.string = slider.value.round(0.001);
+	});
 	position = Slider.new(w, em@(em*4));
 
 	StaticText.new(w,Rect(0,0,em,20))
 		.string_("Size")
 		.font_(Font("Monaco", 11))
 		.align_(\center);
-	StaticText.new(w,Rect(0,0,em,20))
-		.string_("Jitter")
-		.font_(Font("Monaco", 11))
-		.align(\center);
 	StaticText.new(w,Rect(0,0,em,20))
 		.string_("Pos'n")
 		.font_(Font("Monaco", 11))
@@ -107,15 +154,7 @@
 		.font_(Font("Monaco", 11))
 		.align_(\center);
 	StaticText.new(w,Rect(0,0,em,20))
-		.string_("Spray")
-		.font_(Font("Monaco", 11))
-		.align_(\center);
-	StaticText.new(w,Rect(0,0,em,20))
 		.string_("Densi")
-		.font_(Font("Monaco", 11))
-		.align_(\center);
-	StaticText.new(w,Rect(0,0,em,20))
-		.string_("Spray")
 		.font_(Font("Monaco", 11))
 		.align_(\center);
 	StaticText.new(w,Rect(0,0,em,20))
@@ -135,58 +174,13 @@
 		.font_(Font("Monaco", 11))
 		.align_(\center);
 	StaticText.new(w,Rect(0,0,em,20))
+		.string_("Rev")
+		.font_(Font("Monaco", 11))
+		.align_(\center);
+	StaticText.new(w,Rect(0,0,em,20))
 		.string_("Pos")
 		.font_(Font("Monaco", 11))
 		.align_(\center);
-
-	tSize = StaticText.new(w,Rect(0,0,em,20))
-		.font_(Font("Monaco", 11))
-		.align_(\center);
-	tSize_spray = StaticText.new(w,Rect(0,0,em,20))
-		.font_(Font("Monaco", 11))
-		.align_(\center);
-	tPos = StaticText.new(w,Rect(0,0,em,20))
-		.font_(Font("Monaco", 11))
-		.align_(\center);
-	tSpeed = StaticText.new(w,Rect(0,0,em,20))
-		.font_(Font("Monaco", 11))
-		.align_(\center);
-	tPos_spray = StaticText.new(w,Rect(0,0,em,20))
-		.font_(Font("Monaco", 11))
-		.align_(\center);
-	tDensity = StaticText.new(w,Rect(0,0,em,20))
-		.font_(Font("Monaco", 11))
-		.align_(\center);
-	tFreq_spray = StaticText.new(w,Rect(0,0,em,20))
-		.font_(Font("Monaco", 11))
-		.align_(\center);
-	tPitch = StaticText.new(w,Rect(0,0,em,20))
-		.font_(Font("Monaco", 11))
-		.align_(\center);
-	tPan = StaticText.new(w,Rect(0,0,em,20))
-		.font_(Font("Monaco", 11))
-		.align_(\center);
-	tVol = StaticText.new(w,Rect(0,0,em,20))
-		.font_(Font("Monaco", 11))
-		.align_(\center);
-	tLowpass = StaticText.new(w,Rect(0,0,em,20))
-		.font_(Font("Monaco", 11))
-		.align_(\center);
-	tPosition = StaticText.new(w,Rect(0,0,em,20))
-		.font_(Font("Monaco", 11))
-		.align_(\center);
-
-	bSweep = Button(w,Rect(0,0,2*em,em))
-	.states_([
-		["Position"],
-		["Sweep", Color.black, Color.red]
-	])
-	.action_({
-		arg button;
-		synth.set(\sweep, button.value);
-		if(button.value == 0) { pos.valueAction_(position.value) };
-	})
-	.value_(1);
 
 	buttonStates = [];
 
@@ -220,15 +214,49 @@
 		w.close;
 	});
 
-	bMute = Button(w, Rect(0, 0, 2*em, em))
-	.states_([
-		["Mute"],
-		["Unmute", Color.black, Color.red]
-	])
-	.action_({
-		arg button;
-		synth.set(\mute, 1-button.value);
-	});
+		tSize = StaticText.new(w,Rect(0,0,em,20))
+		.font_(Font("Monaco", 11))
+		.align_(\center);
+	tPos = StaticText.new(w,Rect(0,0,em,20))
+		.font_(Font("Monaco", 11))
+		.align_(\center);
+	tSpeed = StaticText.new(w,Rect(0,0,em,20))
+		.font_(Font("Monaco", 11))
+		.align_(\center);
+	tDensity = StaticText.new(w,Rect(0,0,em,20))
+		.font_(Font("Monaco", 11))
+		.align_(\center);
+	tPitch = StaticText.new(w,Rect(0,0,em,20))
+		.font_(Font("Monaco", 11))
+		.align_(\center);
+	tPan = StaticText.new(w,Rect(0,0,em,20))
+		.font_(Font("Monaco", 11))
+		.align_(\center);
+	tVol = StaticText.new(w,Rect(0,0,em,20))
+		.font_(Font("Monaco", 11))
+		.align_(\center);
+	tLowpass = StaticText.new(w,Rect(0,0,em,20))
+		.font_(Font("Monaco", 11))
+		.align_(\center);
+	tRoom = StaticText.new(w,Rect(0,0,em,20))
+		.font_(Font("Monaco", 11))
+		.align_(\center);
+	tPosition = StaticText.new(w,Rect(0,0,em,20))
+		.font_(Font("Monaco", 11))
+		.align_(\center);
+	tSize_spray = StaticText.new(w,Rect(0,0,em,20))
+		.font_(Font("Monaco", 11))
+		.align_(\center);
+	tPos_spray = StaticText.new(w,Rect(0,0,em,20))
+		.font_(Font("Monaco", 11))
+		.align_(\center);
+	tFreq_spray = StaticText.new(w,Rect(0,0,em,20))
+		.font_(Font("Monaco", 11))
+		.align_(\center);
+	tWet = StaticText.new(w,Rect(0,0,em,20))
+		.font_(Font("Monaco", 11))
+		.align_(\center);
+
 
 	w.onClose = {
 		synth.free;
